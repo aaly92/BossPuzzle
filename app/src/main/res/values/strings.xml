@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BossPuzzle</string>
+    <string name="button_24_puzzle">24</string>
+    <string name="button_8_puzzle">8</string>
+    <string name="button_15_puzzle">15</string>
+    <string name="save_button">Save</string>
+</resources>
