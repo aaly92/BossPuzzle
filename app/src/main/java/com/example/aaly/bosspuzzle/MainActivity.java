@@ -17,15 +17,11 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     public static final int MOVES_TO_SHUFFLE = 1;
-
     public static final String IMAGE_URL = "http://images.firstwefeast.com/complex/image/upload/lqraxly7fpssvft18z0s.jpg";
-
-    public int numOfPuzzlePieces = -1;
-
-    private Target loadtarget;
-
+    private static int numOfPuzzlePieces;
+    private static Target loadTarget;
+    private static Bitmap image;
     private static ImageAdapter gameAdapter;
-    private static int lastGridViewNumCols = 0;
 
     @BindView(R.id.puzzle)
     GridView puzzleView;
@@ -39,10 +35,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.puzzle_24)
     Button puzzle24;
 
-//    @BindView(R.id.save)
-//    Button saveButton;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,46 +44,47 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.puzzle_8)
     public void puzzle8() {
-        lastGridViewNumCols = 3;
-        puzzleView.setNumColumns(lastGridViewNumCols);
-        numOfPuzzlePieces = 8;
-        loadBitmap(IMAGE_URL);
+        nPuzzleButtonAction(8);
     }
 
     @OnClick(R.id.puzzle_15)
     public void puzzle15() {
-        lastGridViewNumCols = 4;
-        puzzleView.setNumColumns(lastGridViewNumCols);
-        numOfPuzzlePieces = 15;
-        loadBitmap(IMAGE_URL);
+        nPuzzleButtonAction(15);
     }
 
     @OnClick(R.id.puzzle_24)
     public void puzzle24() {
-        lastGridViewNumCols = 5;
-        puzzleView.setNumColumns(lastGridViewNumCols);
-        numOfPuzzlePieces = 24;
-        loadBitmap(IMAGE_URL);
+        nPuzzleButtonAction(24);
     }
 
-//    @OnClick(R.id.save)
-//    public void save() {
-//
-//    }
+    void nPuzzleButtonAction(int pieces) {
+        numOfPuzzlePieces = pieces ;
+        puzzleView.setNumColumns((int) Math.sqrt(pieces + 1));
+        if (image != null) {
+            onBitmapLoad(image);
+        } else {
+            loadBitmap(IMAGE_URL);
+        }
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        puzzleView.setNumColumns(lastGridViewNumCols);
+        puzzleView.setNumColumns((int) Math.sqrt(numOfPuzzlePieces + 1));
         puzzleView.setAdapter(gameAdapter);
     }
 
-    public void loadBitmap(String url ) {
-        if (loadtarget == null) loadtarget = new Target() {
+    void onBitmapLoad(Bitmap image) {
+        gameAdapter = new ImageAdapter(MainActivity.this, image, numOfPuzzlePieces, MOVES_TO_SHUFFLE);
+        puzzleView.setAdapter(gameAdapter);
+    }
+
+    public void loadBitmap(String url) {
+        if (loadTarget == null) loadTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                gameAdapter = new ImageAdapter(MainActivity.this, bitmap, numOfPuzzlePieces, MOVES_TO_SHUFFLE );
-                puzzleView.setAdapter(gameAdapter);
+                image = bitmap;
+                onBitmapLoad(image);
             }
 
             @Override
@@ -103,6 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-        Picasso.with(this).load(url).into(loadtarget);
+        Picasso.with(this).load(url).into(loadTarget);
     }
 }
