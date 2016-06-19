@@ -58,7 +58,7 @@ public class NPuzzle {
 
         for (int r = 0; r < dimension; r++) {
             for (int c = 0; c < dimension; c++) {
-                tiles.add(new GameTile(Bitmap.createBitmap(bitmap, x, y, tileWidth, tileHeight), arrayIndex,false));
+                tiles.add(new GameTile(Bitmap.createBitmap(bitmap, x, y, tileWidth, tileHeight), arrayIndex, false));
                 arrayIndex++;
                 x += tileWidth;
             }

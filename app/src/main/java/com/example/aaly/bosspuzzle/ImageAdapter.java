@@ -43,7 +43,7 @@ public class ImageAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (game.moveTile(position)) {
                     notifyDataSetChanged();
-                    if(game.isWon()) {
+                    if (game.isWon()) {
                         Toast.makeText(context, "You Win!!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -58,7 +58,6 @@ public class ImageAdapter extends BaseAdapter {
 
         return imageView;
     }
-
 
 
 }

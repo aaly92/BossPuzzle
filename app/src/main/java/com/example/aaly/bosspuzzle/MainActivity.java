@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void nPuzzleButtonAction(int pieces) {
-        numOfPuzzlePieces = pieces ;
+        numOfPuzzlePieces = pieces;
         puzzleView.setNumColumns((int) Math.sqrt(pieces + 1));
         if (image != null) {
             onBitmapLoad(image);
